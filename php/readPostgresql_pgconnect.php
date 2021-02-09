@@ -11,14 +11,21 @@
 	// Fin du bloc recupération des variables avec $_Get
 
 	// Connexion à la base de données "cours7" se trouvant sur le serveur localhost. Nous nous y connectons avec l'identifiant "postgres", et nous entrons le mot de passe que nous avons créé au moment de l'initialisation de la BD PostgreSQL
-	$db = pg_connect("host=localhost dbname=terrains_dpt_geo user=postgres password=gmq717");
+//	$db = pg_connect("host=localhost dbname=terrains_dpt_geo user=postgres password=gmq717");
 //	$db = pg_connect("host=localhost dbname=testdb user=rodolphe password=rodolphe");
+	
+	try {
+		$db = pg_connect("host=localhost dbname=terrains_dpt_geo user=postgres password=gmq717");
+	}
+	catch (exception $e) {
+		$db = pg_connect("host=localhost dbname=testdb user=rodolphe password=rodolphe");
+	}
 	
 	// Nous créons une requête SQL à partir des variables récupérées dans l'URL		
 	if ($discipline == 'Toutes') {
-		$sql = 'SELECT gid, titre, discipline, authors, ST_AsGeoJSON(geom, 4) as geom FROM "terrains2"';
+		$sql = 'SELECT gid, titre, discipline, authors, ST_AsGeoJSON(geom, 4) as geom FROM "terrains"';
 	} else {
-		$sql = 'SELECT gid, titre, discipline, authors, ST_AsGeoJSON(geom, 4) as geom FROM "terrains2" WHERE discipline like \'%' . $discipline . '%\'';
+		$sql = 'SELECT gid, titre, discipline, authors, ST_AsGeoJSON(geom, 4) as geom FROM "terrains" WHERE discipline like \'%' . $discipline . '%\'';
 	}
 	$query = pg_exec($db, $sql);
 	

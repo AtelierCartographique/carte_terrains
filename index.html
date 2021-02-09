@@ -1,44 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 	<head>
-		<head>
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<title>Titre</title>
-			<meta charset="UTF-8">
-			<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
-			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
-			
-			<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-			
-			<script src="plugins/faker.min.js"></script>
-			
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-			
-			<style>
-				html, body {height: 100%; margin: 0;}
-				#Carte { width: 100%; height: 100%; }
-				.navbar-nav > li{
-					padding-left:2px;
-					padding-right:2px;
-					padding-top:2px;
-					padding-bottom:2px;
-				}
-				.info {
-					padding: 6px 8px;
-					font: 14px/16px Arial, Helvetica, sans-serif;
-					background: rgba(255,255,255,0.8);
-					box-shadow: 0 0 15px rgba(0,0,0,0.2);
-					border-radius: 5px;
-					width: 150px;
-				}
-			</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Titre</title>
+		<meta charset="UTF-8">
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+		
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		
+		<script src="plugins/faker.min.js"></script>
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<style>
+			html, body {height: 100%; margin: 0;}
+			#Carte { width: 100%; height: 100%; }
+			.navbar-nav > li{
+				padding: 2px;
+			}
+			.info {
+				padding: 6px 8px;
+				font: 14px/16px Arial, Helvetica, sans-serif;
+				background: rgba(255, 255, 255, 0.8);
+				box-shadow: 0 0 15px rgba(0,0,0,0.2);
+				border-radius: 5px;
+				width: 150px;
+			}
+		</style>
 	</head>
 	<body>
 		
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<a class="navbar-brand" href="https://github.com/AtelierCartographique">
-				<img src="logo.png" width="30" height="30" alt="">
+				<img src="logo.png" width="40" height="40" alt="">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -61,167 +57,156 @@
 							<option value="true">Édition</option>
 						</select>
 					</li>
-					
-<!--					<li class="nav-item">-->
-<!--						<div class="custom-control custom-switch">-->
-<!--							<input type="checkbox" class="custom-control-input" id="edit">-->
-<!--							<label class="custom-control-label" for="edit">Mode édition</label>-->
-<!--						</div>-->
-<!--					</li>-->
-					
 				</ul>
 			</div>
 			
 		</nav>
 		
 		<div id='Carte'></div>
-				<script>
-					
-					var table = 'terrains';
-					var points = new L.layerGroup();
-					var type = 'Toutes';
-					var edit = false;
-					
-					mapboxUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ29ucm8iLCJhIjoiY2szZzdhYzVwMDMxMjNkbjZodzA2ZG8wOSJ9.w_VkhpdmD-1pmMYcabUQwg';
-					var light = L.tileLayer(mapboxUrl, {id: 'mapbox/light-v10'})
-					var dark = L.tileLayer(mapboxUrl, {id: 'mapbox/dark-v10'})
-					
-					var maCarte = L.map('Carte', {layers: light,zoomControl: false});
-					maCarte.setView([0,0], 2);
-					
-					loadData(type);
-					
-					var btnType = document.querySelectorAll('select')[0];
-					if (btnType) btnType.addEventListener('change', function(event) {
-						type = event.target.value;
-						loadData(type);
-					});
-					
-					var btnEdit = document.querySelectorAll('select')[1];
-					if (btnEdit) btnEdit.addEventListener('change', function(event) {
-						editStr = event.target.value;
-						if (editStr == 'true') {
-							edit = true;
-							maCarte.removeLayer(light)
-							maCarte.addLayer(dark)
-						} else {
-							edit = false;
-							maCarte.removeLayer(dark)
-							maCarte.addLayer(light)
+
+		<script>
+
+			table = 'terrains';
+			points = new L.layerGroup();
+			type = 'Toutes';
+			edit = false;
+
+			mapboxUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZ29ucm8iLCJhIjoiY2szZzdhYzVwMDMxMjNkbjZodzA2ZG8wOSJ9.w_VkhpdmD-1pmMYcabUQwg';
+			light = L.tileLayer(mapboxUrl, {id: 'mapbox/light-v10'})
+			dark = L.tileLayer(mapboxUrl, {id: 'mapbox/dark-v10'})
+
+			maCarte = L.map('Carte', {layers: light,zoomControl: false});
+			maCarte.setView([0,0], 2);
+
+			loadData(type);
+
+			btnType = document.querySelectorAll('select')[0];
+			if (btnType) btnType.addEventListener('change', function(event) {
+				type = event.target.value;
+				loadData(type);
+			});
+
+			btnEdit = document.querySelectorAll('select')[1];
+			if (btnEdit) btnEdit.addEventListener('change', function(event) {
+				editStr = event.target.value;
+				if (editStr === 'true') {
+					edit = true;
+					maCarte.removeLayer(light)
+					maCarte.addLayer(dark)
+				} else {
+					edit = false;
+					maCarte.removeLayer(dark)
+					maCarte.addLayer(light)
+				}
+
+				loadData(type)
+			});
+
+
+			maCarte.on('click', function(e) {
+				if (edit === true) {
+					listeDisciplines = ['hum','phy','geom']
+					const type = listeDisciplines[Math.floor(Math.random() * listeDisciplines.length)];
+					writeData(e.latlng.lat,e.latlng.lng,type)
+					}
+				});
+
+			function style(feature) {
+				return {
+					weight: .25,
+					opacity: 1,
+					color: 'white',
+					dashArray: '3',
+					fillOpacity: 1,
+					fillColor: "red"
+				};
+			}
+
+			function writeData(lat,lng,type) {
+
+				authors = ""
+				for (i = 0; i < Math.floor(Math.random() * 6) + 1; i++) {
+					authors += faker.name.lastName() + "_" + faker.name.firstName()[0] + "__"
+				}
+				authors = authors.slice(0, -2)
+				date1 = faker.date.past(10).getYear()
+				console.log('php/writePostgresql_pgconnect.php?lat=' + lat + "&lng=" + lng + "&type=" + type + "&authors='" + authors + "'&date1=" + date1 + "'")
+				$.ajax({url:'php/writePostgresql_pgconnect.php?lat=' + lat + "&lng=" + lng + "&type=" + type + "&authors='" + authors + "'",
+					success: function(){
+						loadData("Toutes");
+					}
+				})
+			}
+
+			function loadData(type) {
+				$.ajax({url:'php/readPostgresql_pgconnect.php?discipline=' + type,
+					success: function(response){
+						data = JSON.parse(response);
+						drawPoints(data.features);
+					}
+				})
+			}
+
+			function erase_point(e) {
+				var pt = e.target;
+				$.ajax({url:'php/writePostgresql_pgconnect.php?erase=true&id=' + pt.gid,
+					success: function(){
+						loadData("Toutes");
+					}
+				})
+			}
+
+			function drawPoints(data) {
+				points.clearLayers()
+				for (d = 0; d < data.length; d++) {
+					coords = data[d]['geometry']['coordinates'];
+					discipline = data[d]['properties']['discipline']
+					gid = parseInt(data[d]['properties']['gid'])
+
+					if (edit === false) {
+						if (discipline === 'hum') {
+							color = 'red'
+						} else if (discipline === 'phy') {
+							color = 'blue'
+						} else if (discipline === 'geom') {
+							color = 'green'
 						}
 
-						loadData(type)
-					});
-					
-					
-					maCarte.on('click', function(e) {
-						if (edit == true) {
-							listeDisciplines = ['hum','phy','geom']
-							const type = listeDisciplines[Math.floor(Math.random() * listeDisciplines.length)];
-							writeData(e.latlng.lat,e.latlng.lng,type)
-							}
+						var point = new L.circleMarker([coords[1],coords[0]],{
+							radius: 10,
+							stroke: 0,
+							fillColor: color,
+							fillOpacity: .95
+						})
+
+					} else {
+						var color = 'white'
+
+						point = new L.circleMarker([coords[1],coords[0]],{
+							radius: 10,
+							stroke: 0,
+							fillColor: color,
+							fillOpacity: .75
+						})
+					}
+
+					if (edit === true) {
+						point.bindPopup("edition")
+						point.gid = gid
+						point.on({
+							click: erase_point
 						});
-					
-					function style(feature) {
-						return {
-							weight: .25,
-							opacity: 1,
-							color: 'white',
-							dashArray: '3',
-							fillOpacity: 1,
-							fillColor: "red"
-						};
+					} else {
+						point.bindPopup("<h1>" + data[d]['properties']['titre'] +
+							"</h1><p>" + data[d]['properties']['authors'] +
+							"</p>")
 					}
-										
-					function writeData(lat,lng,type) {
-						
-						authors = ""
-						for (i = 0; i < Math.floor(Math.random() * 6) + 1; i++) {
-							authors += faker.name.lastName() + "_" + faker.name.firstName()[0] + "__"
-						}
-						authors = authors.slice(0, -2)
-						date1 = faker.date.past(10).getYear()
-						console.log('php/writePostgresql_pgconnect.php?lat=' + lat + "&lng=" + lng + "&type=" + type + "&authors='" + authors + "'&date1=" + date1 + "'")
-						$.ajax({url:'php/writePostgresql_pgconnect.php?lat=' + lat + "&lng=" + lng + "&type=" + type + "&authors='" + authors + "'",
-							success: function(response){
-								loadData("Toutes");
-							}
-						})
-					}
-	
-					function loadData(type) {
-						$.ajax({url:'php/readPostgresql_pgconnect.php?discipline=' + type,
-							success: function(response){
-								data = JSON.parse(response);
-								drawPoints(data.features);
-							}
-						})
-					}
-					
-					function erase_point(e) {
-						var pt = e.target;
-						console.log(pt)
-						console.log('php/writePostgresql_pgconnect.php?erase=true&id=' + pt.gid)
-						$.ajax({url:'php/writePostgresql_pgconnect.php?erase=true&id=' + pt.gid,
-							success: function(response){
-								loadData("Toutes");
-							}
-						})
-					}
-					
-					function drawPoints(data) {
-						points.clearLayers()
-						for (var d = 0; d < data.length; d++) {
-							var coords = data[d]['geometry']['coordinates'];							
-							var discipline = data[d]['properties']['discipline']
-							var gid = parseInt(data[d]['properties']['gid'])
-							
-							if (edit == false) {
-								if (discipline == 'hum') {
-									var color = 'red'
-								} else if (discipline == 'phy') {
-									var color = 'blue'
-								} else if (discipline == 'geom') {
-									var color = 'green'
-								}
-								
-								var point = new L.circleMarker([coords[1],coords[0]],{
-									radius: 10,
-									stroke: 0,
-									fillColor: color,
-									fillOpacity: .95
-								})
-								
-							} else {
-								var color = 'white'
-								
-								var point = new L.circleMarker([coords[1],coords[0]],{
-									radius: 10,
-									stroke: 0,
-									fillColor: color,
-									fillOpacity: .75
-								})
-							}
-							
-							if (edit == true) {
-								point.bindPopup("edition")
-								point.gid = gid
-								point.on({
-									click: erase_point
-								});
-							} else {
-								point.bindPopup("<h1>" + data[d]['properties']['titre'] +
-									"</h1><p>" + data[d]['properties']['authors'] +
-									"</p>")
-							}
-							
-							points.addLayer(point);
-							
-						}
-						maCarte.addLayer(points);
-					}
-					
-					
-				</script>
+
+					points.addLayer(point);
+
+				}
+				maCarte.addLayer(points);
+			}
+		</script>
 	</body>
 </html>

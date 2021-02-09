@@ -30,15 +30,17 @@
 	} else
 		$erase = $_GET['erase'];
 
-//	$db = new PDO("pgsql:host=localhost; dbname=terrains_dpt_geo", "postgres", "gmq717");
-	$db = pg_connect("host=localhost dbname=terrains_dpt_geo user=postgres password=gmq717");
-//	$db = pg_connect("host=localhost dbname=testdb user=rodolphe password=rodolphe");
+	try {
+		$db = pg_connect("host=localhost dbname=terrains_dpt_geo user=postgres password=gmq717");
+	}
+	catch (exception $e) {
+		$db = pg_connect("host=localhost dbname=testdb user=rodolphe password=rodolphe");
+	}
 	
-//	$sql = 'SELECT titre, discipline, ST_AsGeoJSON(geom, 5) as geom FROM "terrains"';
 	if ($erase == 'true') {
-		$sql = 'DELETE FROM "terrains2" WHERE gid = ' . $id;
+		$sql = 'DELETE FROM "terrains" WHERE gid = ' . $id;
 	} else  {
-		$sql = "INSERT INTO terrains2(geom,titre,title,context,discipline,authors) VALUES(ST_GeomFromText('POINT(" . $lng . " " . $lat . ")', 4326),'Un titre', 'A title', 'Doctorat'"
+		$sql = "INSERT INTO terrains(geom,titre,title,context,discipline,authors) VALUES(ST_GeomFromText('POINT(" . $lng . " " . $lat . ")', 4326),'Un titre', 'A title', 'Doctorat'"
 		. ",'" . $type
 		. "'," . $authors
 		. ")";
