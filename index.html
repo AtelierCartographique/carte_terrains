@@ -31,7 +31,6 @@
 		</style>
 	</head>
 	<body>
-
 		<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 			<a class="navbar-brand" href="https://github.com/AtelierCartographique">
 				<img src="logo.png" width="40" height="40" alt="">
@@ -43,19 +42,23 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<select class="custom-select">
-							<option value="Toutes">Tous les domaines de la géographie</option>
-							<option value="hum">Géographie humaine</option>
-							<option value="phy">Géographie physique</option>
-							<option value="geom">Géomatique</option>
-							<option value="autre">Autre</option>
-						</select>
+						<label>
+							<select class="custom-select">
+								<option value="Toutes">Tous les domaines de la géographie</option>
+								<option value="hum">Géographie humaine</option>
+								<option value="phy">Géographie physique</option>
+								<option value="geom">Géomatique</option>
+								<option value="autre">Autre</option>
+							</select>
+						</label>
 					</li>
 					<li class="nav-item">
-						<select class="custom-select">
-							<option value="false">Lecture</option>
-							<option value="true">Édition</option>
-						</select>
+						<label>
+							<select class="custom-select">
+								<option value="false">Lecture</option>
+								<option value="true">Édition</option>
+							</select>
+						</label>
 					</li>
 				</ul>
 			</div>
@@ -102,7 +105,6 @@
 				loadData(type)
 			});
 
-
 			maCarte.on('click', function(e) {
 				if (edit === true) {
 					listeDisciplines = ['hum','phy','geom']
@@ -110,17 +112,6 @@
 					writeData(e.latlng.lat,e.latlng.lng,type)
 					}
 				});
-
-			function style(feature) {
-				return {
-					weight: .25,
-					opacity: 1,
-					color: 'white',
-					dashArray: '3',
-					fillOpacity: 1,
-					fillColor: "red"
-				};
-			}
 
 			function writeData(lat,lng,type) {
 
@@ -148,7 +139,8 @@
 			}
 
 			function erase_point(e) {
-				var pt = e.target;
+				pt = e.target;
+				console.log(pt.gid)
 				$.ajax({url:'php/writePostgresql_pgconnect.php?erase=true&id=' + pt.gid,
 					success: function(){
 						loadData("Toutes");
@@ -172,7 +164,7 @@
 							color = 'green'
 						}
 
-						var point = new L.circleMarker([coords[1],coords[0]],{
+						point = new L.circleMarker([coords[1],coords[0]],{
 							radius: 10,
 							stroke: 0,
 							fillColor: color,
@@ -180,7 +172,7 @@
 						})
 
 					} else {
-						var color = 'white'
+						color = 'white'
 
 						point = new L.circleMarker([coords[1],coords[0]],{
 							radius: 10,
@@ -201,9 +193,7 @@
 							"</h1><p>" + data[d]['properties']['authors'] +
 							"</p>")
 					}
-
 					points.addLayer(point);
-
 				}
 				maCarte.addLayer(points);
 			}
